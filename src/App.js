@@ -1,23 +1,31 @@
-import logo from './logo.svg';
+import axios from 'axios';
+import { useEffect, useState } from 'react';
 import './App.css';
+import courseService from './services/courses.js';
+import playerService from './services/players.js';
 
-function App() {
+
+const CourseScorecard = ({ course }) => {
+  return (
+    <div>
+      <h2>{course.code} - {course.name}</h2>
+    </div>
+  )
+}
+
+const App = () => {
+  const [ courses, setCourses ] = useState([])
+  const [ players, setPlayers ] = useState([])
+
+  useEffect(() => {
+    console.log('fired')
+    courseService.getAll().then(initialCourses => setCourses(initialCourses));
+    playerService.getAll().then(initialPlayers => setPlayers(initialPlayers));
+  }, [])
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      { courses.map(course => <CourseScorecard course={course} key={course.code} />) }
     </div>
   );
 }
