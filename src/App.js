@@ -1,26 +1,33 @@
-import axios from 'axios';
 import { useEffect, useState } from 'react';
-import './App.css';
 import courseService from './services/courses.js';
-import playerService from './services/players.js';
+import './App.css';
 
+const Round = ({ round, playerCount }) => {
+  return (
+    <span>{round.name}</span>
+  )
+}
 
 const CourseScorecard = ({ course }) => {
+  const playerCount = course.players.length
+
   return (
     <div>
       <h2>{course.code} - {course.name}</h2>
+      <div className="scoreboard" style={{gridTemplateColumns: `repeat(${playerCount + 1}, 1fr)`}}>
+        <span>Round name</span>
+        {course.players.map(player => <span>{player.name}</span>)}
+        { course.rounds.map(round => <Round round={round} playerCount={playerCount} key={round.name} />) }
+      </div>
     </div>
   )
 }
 
 const App = () => {
   const [ courses, setCourses ] = useState([])
-  const [ players, setPlayers ] = useState([])
 
   useEffect(() => {
-    console.log('fired')
     courseService.getAll().then(initialCourses => setCourses(initialCourses));
-    playerService.getAll().then(initialPlayers => setPlayers(initialPlayers));
   }, [])
 
   return (
