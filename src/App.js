@@ -1,40 +1,32 @@
-import { useEffect, useState } from 'react';
-import courseService from './services/courses.js';
-import './App.css';
+import axios from 'axios'
+import React, { useEffect, useState } from 'react'
+import Scoreboard from './components/Scoreboard'
+import './App.css'
 
-const Round = ({ round, playerCount }) => {
-  return (
-    <span>{round.name}</span>
-  )
-}
-
-const CourseScorecard = ({ course }) => {
-  const playerCount = course.players.length
-
-  return (
-    <div>
-      <h2>{course.code} - {course.name}</h2>
-      <div className="scoreboard" style={{gridTemplateColumns: `repeat(${playerCount + 1}, 1fr)`}}>
-        <span>Round name</span>
-        {course.players.map(player => <span>{player.name}</span>)}
-        { course.rounds.map(round => <Round round={round} playerCount={playerCount} key={round.name} />) }
-      </div>
-    </div>
-  )
-}
-
-const App = () => {
-  const [ courses, setCourses ] = useState([])
-
+function App() {
+  const [ data, setData ] = useState(null)
+  const [ currentBoard, setCurrentBoard ] = useState(0)
   useEffect(() => {
-    courseService.getAll().then(initialCourses => setCourses(initialCourses));
+    axios
+      .get('http://localhost:3001/boards') 
+      .then((response) => {
+        setData(response.data)
+      }) 
   }, [])
 
-  return (
-    <div className="App">
-      { courses.map(course => <CourseScorecard course={course} key={course.code} />) }
-    </div>
-  );
+  if (data === null) {
+    return(
+      <p>Loading data...</p>
+    )
+  } else {
+    return(
+      <Scoreboard
+        boardId={currentBoard}
+        data={data}
+        setData={setData}
+      />
+    )
+  }
 }
 
-export default App;
+export default App
