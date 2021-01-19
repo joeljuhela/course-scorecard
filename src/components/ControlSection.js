@@ -3,7 +3,7 @@ import React, { useState } from 'react'
 // This section needs to be split into smaller components
 // the code is also messy
 
-const ControlSection = ({ data, setData, boardId }) => {
+const ControlSection = ({ data, setData, postData, boardId }) => {
   const board = data[boardId]
   const [ newPlayer, setNewPlayer ] = useState('')
   const [ newScore, setNewScore ] = useState(0)
@@ -22,6 +22,7 @@ const ControlSection = ({ data, setData, boardId }) => {
     setData(dataCopy)
     setNewPlayer('')
     document.getElementById("new-player-input").value = ''
+    postData()
   }
 
   const addRound = () => {
@@ -35,6 +36,7 @@ const ControlSection = ({ data, setData, boardId }) => {
     dataCopy[boardId].rounds = dataCopy[boardId].rounds.concat(roundObject)
     setData(dataCopy)
     roundInput.value = ''
+    postData()
   }
 
   const addScore = () => {
@@ -57,6 +59,7 @@ const ControlSection = ({ data, setData, boardId }) => {
     setNewScore(0)
     console.log(data)
     document.getElementById('new-score-input').value = 0
+    postData()
   }
 
   return (

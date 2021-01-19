@@ -4,7 +4,7 @@ import SumRow from './SumRow'
 import PlayerRow from './PlayerRow'
 import ControlSection from './ControlSection'
 
-const Scoreboard = ({ boardId, data, setData }) => {
+const Scoreboard = ({ boardId, data, setData, postData }) => {
   const board = data[boardId]
   return (
     <>
@@ -20,6 +20,7 @@ const Scoreboard = ({ boardId, data, setData }) => {
         boardId={boardId}
         data={data}
         setData={setData}
+        postData={postData}
       />
     </>  
   )

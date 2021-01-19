@@ -6,12 +6,23 @@ import './App.css'
 function App() {
   const [ data, setData ] = useState(null)
   const [ currentBoard, setCurrentBoard ] = useState(0)
-  useEffect(() => {
+  const apiBase = 'http://localhost:3001'
+  const getData = () => {
     axios
-      .get('http://localhost:3001/boards') 
-      .then((response) => {
+      .get(`${apiBase}/boards`) 
+      .then(response => {
         setData(response.data)
       }) 
+  }
+
+  const postData = () => {
+    axios
+      .put(`${apiBase}/boards/${data[currentBoard].id}`, data[currentBoard])
+  }
+
+  useEffect(() => {
+    getData()
+    setInterval(getData, 5000)
   }, [])
 
   if (data === null) {
@@ -24,6 +35,7 @@ function App() {
         boardId={currentBoard}
         data={data}
         setData={setData}
+        postData={postData}
       />
     )
   }
