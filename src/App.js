@@ -22,7 +22,8 @@ function App() {
 
   useEffect(() => {
     getData()
-    setInterval(getData, 5000)
+    const getTimeout = setInterval(getData, 5000)
+    return () => clearInterval(getTimeout)
   }, [])
 
   if (data === null) {
