@@ -1,6 +1,7 @@
 import axios from 'axios'
 import React, { useEffect, useState } from 'react'
 import Scoreboard from './components/Scoreboard'
+import BoardControl from './components/BoardControl'
 import './App.css'
 
 function App() {
@@ -32,12 +33,18 @@ function App() {
     )
   } else {
     return(
-      <Scoreboard
-        boardId={currentBoard}
-        data={data}
-        setData={setData}
-        postData={postData}
-      />
+      <>
+        <BoardControl 
+          data={data} 
+          setCurrentBoard={setCurrentBoard}
+        />
+        <Scoreboard
+          boardId={currentBoard}
+          data={data}
+          setData={setData}
+          postData={postData}
+        />
+      </>
     )
   }
 }
